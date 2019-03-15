@@ -1,39 +1,57 @@
-## Advanced Lane Finding
+# Advanced Lane Finding
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
-![Lanes Image](./examples/example_output.jpg)
 
-In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
 
-Creating a great writeup:
+## Introduction
+
+This is Advanced lane finding project of Udacity's Self-Driving Car Engineering Nanodegree.  The lane-finding algorithm must be robust to changing light conditions, curvature of road and type of road itself. It might be enough in the straight highway. The final objective was to apply advanced computer vision techniques to detect lanes and measure the offset on the car between the two lanes and compute curvature of the road.
+
+The result of this project is showed in the next gift ![SegmentLocal](challenge_video_output1.gif "segment")
+
+![jpg](output_images/FinalPipeline.jpg)
+
+## Enviroment
+
+#### software  
+  
+>macOS Mojave 10.14.3, Python 3.
+
+#### Import Packages
+
+>   matplotlib
+    numpy 
+    OpenCv
+    glob
+    imageio
+    os 
+    sys
+
+
+## The Project
 ---
-A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
 
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
+The project has the next structure:
 
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
-
-The goals / steps of this project are the following:
-
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
+* Compute the camera calibration matrix and distortion coefficients by using chessboard images.
 * Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
+* Use Sobel tecnique and LAB/HLS space to create a thresholded binary image.
+* Apply mask to region of interest
+* Apply a perspective transform to get top-down view.
+* Detect lane pixels and fit to find the lane boundary by getting histogram of the image.
 * Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
+* Match the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
+The folder `camera_cal` contains the images to camera calibration. The images in `test_images` was used to test each function that form the pipeline. 
+The output images of each function used in the [Code.ipynb](Code.ipynb) Notebook were saved in the folder called `output_images`. The video called `project_video.mp4`  and `challenge_video.mp4` were used to test the final pipeline and the were stored in the current folder. The mainly code is in [Code.ipynb](Code.ipynb) notebook. To more details about the project, please see [writeup.md](writeup.md).
 
-To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `output_images`, and include a description in your writeup for the project of what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
+## Discussion
 
-The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions.  The `harder_challenge.mp4` video is another optional challenge and is brutal!
+### Issues 
 
-If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
+Define a value to each color space, gradient and color channnel thresholding generates a complicate way to automatize. Instead, it has to be defining manually.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+The slide search windows are broken in a frame that has the lane lines wrong defined or when a shadow overlaps the lane lines
+
+Computer vision solution is sensitive to the chosen parameters, if the parameters are wrong chosen, it fails. So, it is dificult generalize a pipeline that always work to any image or/and video.
 
